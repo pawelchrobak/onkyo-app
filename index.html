@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Onkyo App</title>
+    </head>
+    <body>
+        <h1>Hello Python!</h1>
+        <a id="poweron" href=#>ON</a>
+        <a id="poweroff" href=#>OFF</a>
+    </body>
+    <script>
+        const { BrowserWindow } = require('electron');
+        document.getElementById("poweron").onclick = function() {myFunction()};
+
+        function myFunction() {
+            document.getElementById("poweron").innerHTML = "ON YAY!";
+        }
+        
+        var params = ["--discover"];
+
+        var cmd = require('child_process').spawn('onkyo', params);
+
+        cmd.stdout.on('data',function(data){
+            console.log(data.toString('utf8'));
+        });
+    </script>
+</html>
