@@ -3,29 +3,58 @@ const onkyo = require('../onkyo/onkyo');
 
 
 const infoSearching = document.getElementById('info-searching');
+const infoErrors = document.getElementById('info-errors');
+
 const receiverSelector = document.getElementById('receiver-selector');
+const controlPanel = document.getElementById('control-panel');
+const btnPower = document.getElementById('btn-power');
 
 var receiverList = [];
+var selectedReceiver;
 
-if ( receiverList.length == 0 ) {
-    onkyo.onkyoDiscover( (list) => {
+onkyo.onkyoDiscover( (err,list) => {
+    if (err) {
+        infoErrors.innerText = err;
+
         infoSearching.classList = ['hidden'];
-        receiverSelector.classList = [];
-        
-        receiverList = list;
+        infoErrors.classList = [];
 
+        return;
+    }
+    
+    infoSearching.classList = ['hidden'];
+    receiverSelector.classList = [];
+    controlPanel.classList = [];
 
-        for ( let i = 0 ; i<list.length ; i++ ) {
-            let option = document.createElement('option');
-            option.innerText = list[i].name + ' ' + list[i].ip;
-            receiverSelector.appendChild(option);
-        }
-    });
-}
+    
+    receiverList = list;
+    selectedReceiver = receiverList[0];
+    
+    for ( let i = 0 ; i<list.length ; i++ ) {
+        let option = document.createElement('option');
+        option.value = i;
+        option.innerText = list[i].name;
+        receiverSelector.appendChild(option);
+    }
 
-btnReceiverSearch.addEventListener('click', () => {
-    ipcRenderer.send('asynchronous-message', 'search');
+    receiverSelector.addEventListener('change', (event) => {
+        selectedReceiver = receiverList[event.target.value];
+        // console.log(selectedReceiver);
+    })
+
+    btnPower.addEventListener('click', (event) => {
+        selectedReceiver.powerOn();
+    })
+
+    
+    
 });
+
+
+
+// btnReceiverSearch.addEventListener('click', () => {
+//     ipcRenderer.send('asynchronous-message', 'search');
+// });
 
 ipcRenderer.on('asynchronous-reply', (event, receiver) => {
     // console.log(arg);
