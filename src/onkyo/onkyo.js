@@ -1,10 +1,11 @@
 const cp = require('child_process');
 
-function onkyoDiscover() {
-    // returns array of onkyo receivers objects
+function onkyoDiscover(callback) {
+    // gets array of onkyo receivers objects and passes them into callback function
     let receiverList = [];
 
     let cmd = cp.spawn('onkyo',['--discover']);
+
     cmd.stdout.on('data', (data) => {
         data = data.toString('utf8');
         let rawList = data.split('\r\n');
@@ -33,7 +34,6 @@ function onkyoDiscover() {
 
             if ( (typeof rawList[i][0] === 'string') && (rawList[i][0].length > 0) ) {
                 tmpObj.name = rawList[i][0];
-                console.log(tmpObj.name);
             } else { valid = false; }
 
             if ( rawList[i][1][0].length == 4 &&
@@ -42,57 +42,27 @@ function onkyoDiscover() {
                  typeof rawList[i][1][0][2] === 'number' &&
                  typeof rawList[i][1][0][3] === 'number' ) {
                 tmpObj.ip = rawList[i][1][0];
-                console.log(tmpObj.ip)
             } else { valid = false; }
 
             if ( typeof rawList[i][1][1] === 'number' ) {
                 tmpObj.port = rawList[i][1][1];
-                console.log(tmpObj.port)
             } else { valid = false; }
 
             if ( typeof rawList[i][2] === 'string' && rawList[i][2].length == 12 ) {
                 tmpObj.mac = rawList[i][2];
-                console.log(tmpObj.mac)
             } else { valid = false; }
 
-            console.log('tmpObj:');
-            console.log(tmpObj)
+            if (valid) {
+                receiverList.push(new OnkyoReceiver(tmpObj.name,tmpObj.ip,tmpObj.port,tmpObj.mac));
+            }
         }
 
-        
-
-        console.log('rawList:');
-        console.log(rawList);
-
-
-
-        // for (let i = 0 ; i < rawList.length ; i++ ) {
-        //     let tmpList = [];
-        //     if ( list[i] == '' ) {
-        //         list.splice(i,1);
-        //     } else {
-        //         i++;
-        //     }
-        // }
-
-
+        if (receiverList.length > 0) {
+            callback(receiverList);
+        }
 
     });
 }
-
-function test() {
-    let receiverList = [];
-
-    let cmd = cp.spawn('test.bat',[]);
-    cmd.stdout.on('data', (data) => {
-        data = data.toString('utf8');
-        let arr = data.split(' ');
-        // for ()
-        console.log(arr);
-    });
-    console.log('nic sie nie stalo');
-}
-
 
 class OnkyoReceiver {
     constructor(name, ip, port, mac) {
@@ -119,6 +89,3 @@ class OnkyoReceiver {
 
 module.exports.OnkyoReceiver = OnkyoReceiver;
 module.exports.onkyoDiscover = onkyoDiscover;
-
-
-onkyoDiscover();

@@ -1,4 +1,5 @@
 const {app, BrowserWindow, ipcMain} = require('electron');
+const onkyo = require('./src/onkyo/onkyo');
 // const { PythonShell } = require('python-shell');
 
 // PythonShell.runString('x=1+1;print(x)', null, function (err, results) {
@@ -39,13 +40,21 @@ ipcMain.on('asynchronous-message', (event, arg) => {
     // console.log(event);
 
     console.log(arg);
-    let params = ["--discover"];
-    let cmd = require('child_process').spawn('onkyo', params);
 
-    cmd.stdout.on('data', ( data ) => {
-        console.log('receivers found: ' + data.toString('utf8') );
-        event.reply('asynchronous-reply', data.toString('utf8') );
-    })
+    onkyo.onkyoDiscover( (list) => {
+        event.reply('asynchronous-reply', list[0]);
+    });
+
+
+
+
+    // let params = ["--discover"];
+    // let cmd = require('child_process').spawn('onkyo', params);
+
+    // cmd.stdout.on('data', ( data ) => {
+    //     console.log('receivers found: ' + data.toString('utf8') );
+    //     event.reply('asynchronous-reply', data.toString('utf8') );
+    // })
 
 
 });

@@ -5,11 +5,12 @@
     <title>Hello World!</title>
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" type="text/css" href="main.css">
   </head>
   <body>
-    <h1>Onkyo App</h1>
-    <button type="button" id="btn-receiver-search">Szukaj odbiorników</button>
-    <div id="search-result"></div>
+    <div id="info-searching">Szukam odbiorników...</div>
+    <select class="hidden" id="receiver-selector"></select>
+
     <script src="main.js"></script>
   </body>
 </html>
