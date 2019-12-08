@@ -11,10 +11,12 @@
     <div id="info-searching">Szukam odbiorników...</div>
     <div id="info-errors" class="hidden"></div>
 
-    <select class="hidden" id="receiver-selector"></select>
+    <div class="hidden"  id="control-header">
+      <select id="receiver-selector"></select>
+      <button id="btn-power" class="inactive">Power</button>
+    </div>
     <div class="hidden" id="control-panel">
-      <button id="btn-power">Power</button>
-
+      <div id="status-power"></div>
     </div>
 
     <script src="main.js"></script>

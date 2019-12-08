@@ -1,0 +1,61 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-size: 20px;
+  color: white;
+}
+
+body {
+  background: rgba(22, 22, 22, 0.5);
+}
+
+.hidden {
+  display: none;
+}
+
+#control-header {
+  position: relative;
+  vertical-align: top;
+}
+#receiver-selector-box {
+  position: absolute;
+  width: 100%;
+}
+#receiver-selector-box #receiver-selector {
+  width: 100%;
+  height: 50px;
+  text-align-last: center;
+  border: none;
+  -webkit-appearance: button;
+  appearance: button;
+  outline: none;
+  background: #222;
+}
+#receiver-selector-box #receiver-selector option {
+  padding: 50px;
+}
+
+#btn-power {
+  position: absolute;
+  right: 0;
+  height: 50px;
+  width: 50px;
+}
+#btn-power.active {
+  background: black;
+}
+#btn-power.inactive {
+  background: green;
+}
+
+#volume-section .volume-btn {
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+}
+#volume-section input {
+  width: 250px;
+  height: 50px;
+}
+
+/*# sourceMappingURL=main.css.map */

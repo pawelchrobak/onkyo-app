@@ -7,7 +7,9 @@ const infoErrors = document.getElementById('info-errors');
 
 const receiverSelector = document.getElementById('receiver-selector');
 const controlPanel = document.getElementById('control-panel');
+const controlHeader = document.getElementById('control-header');
 const btnPower = document.getElementById('btn-power');
+const statusPower = document.getElementById('status-power');
 
 var receiverList = [];
 var selectedReceiver;
@@ -23,7 +25,7 @@ onkyo.onkyoDiscover( (err,list) => {
     }
     
     infoSearching.classList = ['hidden'];
-    receiverSelector.classList = [];
+    controlHeader.classList = [];
     controlPanel.classList = [];
 
     
@@ -43,7 +45,11 @@ onkyo.onkyoDiscover( (err,list) => {
     })
 
     btnPower.addEventListener('click', (event) => {
-        selectedReceiver.powerOn();
+        selectedReceiver.powerOn( (err,status) => {
+            if (status) {
+                statusPower.innerText = 'ON';
+            }
+        });
     })
 
     

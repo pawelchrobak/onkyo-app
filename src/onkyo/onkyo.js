@@ -100,20 +100,29 @@ class OnkyoReceiver {
                       'power.on',
                       '-q',
                       '-q'];
-        console.log(params);
+
         let cmd = cp.spawn('onkyo',params);
 
         cmd.stdout.on('data', (data) => {
+            // data = data.toString('utf8');
+            data = data.toString('utf8').split('\n')[0].split('\r')[0];
             console.log(data);
+
+            if ( data != 'on') {
+                errors = 'Failed to turn on receiver.'
+            } else {
+                status = true;
+            }
+
         });
 
         cmd.on('close', (code) => {
-            console.log('powering on ' + this.name);
+            callback(errors,status);
         });
 
     }
 
-    powerOff() {
+    powerOff(callback) {
         console.log('powering off ' + this.name);
     }
 

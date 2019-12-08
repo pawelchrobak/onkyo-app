@@ -1,22 +1,31 @@
-const {app, BrowserWindow, ipcMain} = require('electron');
+const {app, BrowserWindow, ipcMain, Menu, Tray} = require('electron');
 const onkyo = require('./src/onkyo/onkyo');
-// const { PythonShell } = require('python-shell');
 
-// PythonShell.runString('x=1+1;print(x)', null, function (err, results) {
-//     if (err) throw err;
-//     console.log('results: %j', results);
-//   });
+let tray = null;
 
 function createWindow() {
+
+    tray = new Tray('./src/power.ico');
+
+    const contextMenu = Menu.buildFromTemplate([
+        {label: "Item1", type:"radio"}
+    ])
+
+    tray.setToolTip("onkyo app");
+    tray.setContextMenu(contextMenu);
+
     const window = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 400,
+        height: 400,
+        transparent: true,
+        // frame: false,
+        resizable: false,
         webPreferences: {
             nodeIntegration: true
         }
     });
 
-    window.loadFile('./src/main/main.html');
+    window.loadFile('./src/main-tmp/main.html');
     // window.webContents.openDevTools();
 
     // window.getElementById("poweron").onclick = function() {myFunction()};
@@ -58,3 +67,5 @@ ipcMain.on('asynchronous-message', (event, arg) => {
 
 
 });
+
+// ipcMain.on('put-in-tray', (event) )

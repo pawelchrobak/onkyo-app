@@ -1,3 +1,12 @@
 .hidden {
-    display: none;
+  display: none;
 }
+
+#btn-power.active {
+  background: black;
+}
+#btn-power.inactive {
+  background: green;
+}
+
+/*# sourceMappingURL=main.css.map */

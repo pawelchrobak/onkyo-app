@@ -1,0 +1,28 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+}
+
+.hidden {
+    display: none;
+}
+
+#control-header {
+    #receiver-selector {
+
+    }
+}
+
+
+#btn-power {
+
+    &.active {
+        background: black;
+    }
+
+
+    &.inactive {
+        background: green;
+    }
+}
