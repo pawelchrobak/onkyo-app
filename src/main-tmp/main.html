@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Onkyo App</title>
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <link rel="stylesheet" type="text/css" href="main.css">
@@ -11,28 +11,32 @@
     <div id="info-searching" class="hidden">Szukam odbiorników...</div>
     <div id="info-errors" class="hidden"></div>
 
-    <div id="control-header">
+    <div id="header-section">
       <div id="receiver-selector-box">
         <select id="receiver-selector">
           <option>TX-8050</option>
           <option>TX-8060</option>
         </select>
       </div>
-      <div id="btn-power" class="inactive"></div>
+      <div id="btn-power" class="btn"></div>
     </div>
+    
     <div id="src-section">
-      <div>PC</div>
-      <div>Chromecast</div>
+      <div id="src-pc" class="btn"></div>
+      <div id="src-chromecast" class="btn"></div>
+      <div class="clear"></div>
     </div>
-    <div id="control-panel">
-      <div id="status-power">ON</div>
-    </div>
+  
+    
     <div id="volume-section">
-      <div id="volume-mute" class="volume-btn"></div>
-      <div id="volume-down" class="volume-btn"></div>
-      <input type="range" name="volume" min="0" max="50">
-      <div id="volume-up" class="volume-btn"></div>
+      <div id="volume-mute" class="btn"></div>
+      <!-- <div id="volume-down" class="btn"></div> -->
+      <input type="range" class="input-range" name="volume" min="0" max="50">
+      <!-- <div id="volume-up" class="btn"></div> -->
+      <div id="volume-val">100</div>
     </div>
+    
     <!-- <script src="main.js"></script> -->
+  
   </body>
 </html>

@@ -1,61 +1,124 @@
 * {
   padding: 0;
   margin: 0;
-  font-size: 20px;
+  font-size: 24px;
   color: white;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-  background: rgba(22, 22, 22, 0.5);
+  background: rgba(22, 22, 22, 0.75);
+}
+
+.clear {
+  clear: both;
 }
 
 .hidden {
   display: none;
 }
 
-#control-header {
-  position: relative;
-  vertical-align: top;
-}
-#receiver-selector-box {
-  position: absolute;
+#header-section #receiver-selector-box {
   width: 100%;
 }
-#receiver-selector-box #receiver-selector {
+#header-section #receiver-selector-box #receiver-selector {
   width: 100%;
-  height: 50px;
+  height: 56px;
   text-align-last: center;
   border: none;
-  -webkit-appearance: button;
-  appearance: button;
+  -webkit-appearance: none;
+  appearance: none;
   outline: none;
   background: #222;
 }
-#receiver-selector-box #receiver-selector option {
+#header-section #receiver-selector-box #receiver-selector option {
   padding: 50px;
 }
-
-#btn-power {
+#header-section #btn-power {
   position: absolute;
+  margin: 4px;
+  top: 0;
   right: 0;
-  height: 50px;
-  width: 50px;
+  background-image: url("../img/icons8-power-off-button-50.png");
 }
-#btn-power.active {
+#header-section #btn-power.active {
   background: black;
 }
-#btn-power.inactive {
+#header-section #btn-power.inactive {
   background: green;
 }
 
-#volume-section .volume-btn {
-  display: inline-block;
-  height: 50px;
-  width: 50px;
+.btn {
+  height: 48px;
+  width: 48px;
+  background-repeat: no-repeat;
+  background-size: 67%;
+  background-position: center;
 }
-#volume-section input {
+.btn:hover {
+  background-color: #66adff;
+}
+.btn:active {
+  background-color: #003b7e;
+}
+
+.input-range {
+  -webkit-appearance: none;
+  background: transparent;
+  height: 48px;
+}
+.input-range:focus {
+  outline: none;
+}
+.input-range::-webkit-slider-runnable-track {
+  height: 4px;
+  background: white;
+}
+.input-range::-webkit-slider-thumb {
+  width: 8px;
+  height: 24px;
+  background: #0866d1;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  margin-top: -10px;
+}
+
+#src-section .btn {
+  float: left;
+  margin: 4px;
+}
+#src-section #src-pc {
+  background-image: url("../img/icons8-workstation-50.png");
+}
+#src-section #src-chromecast {
+  background-image: url("../img/icons8-chromecast-50.png");
+}
+
+#volume-section .btn {
+  float: left;
+  margin: 4px;
+}
+#volume-section #volume-mute {
+  background-image: url("../img/icons8-mute-50.png");
+}
+#volume-section #volume-down {
+  background-image: url("../img/icons8-low-volume-50.png");
+}
+#volume-section #volume-up {
+  background-image: url("../img/icons8-audio-50.png");
+}
+#volume-section .input-range {
+  float: left;
+  margin: 4px;
   width: 250px;
-  height: 50px;
+}
+#volume-section #volume-val {
+  float: left;
+  margin: 4px;
+  height: 48px;
+  width: 64px;
+  text-align: center;
+  line-height: 40px;
 }
 
 /*# sourceMappingURL=main.css.map */

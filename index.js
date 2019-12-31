@@ -2,23 +2,20 @@ const {app, BrowserWindow, ipcMain, Menu, Tray} = require('electron');
 const onkyo = require('./src/onkyo/onkyo');
 
 let tray = null;
+let window = null;
+let timeoutCloseWindow = null;
 
 function createWindow() {
-
-    tray = new Tray('./src/power.ico');
-
-    const contextMenu = Menu.buildFromTemplate([
-        {label: "Item1", type:"radio"}
-    ])
-
-    tray.setToolTip("onkyo app");
-    tray.setContextMenu(contextMenu);
-
-    const window = new BrowserWindow({
-        width: 400,
-        height: 400,
+    window = new BrowserWindow({
+        show: false,
+        width: 386,
+        height: 240,
+        x: 1500,
+        y: 800,
         transparent: true,
-        // frame: false,
+        frame: false,
+        skipTaskbar: true,
+        useContentSize: true,
         resizable: false,
         webPreferences: {
             nodeIntegration: true
@@ -26,6 +23,14 @@ function createWindow() {
     });
 
     window.loadFile('./src/main-tmp/main.html');
+    window.on('blur', () => {
+        clearTimeout(timeoutCloseWindow);
+        timeoutCloseWindow = setTimeout( () => {
+            window.hide()
+        }, 500)
+    })
+
+
     // window.webContents.openDevTools();
 
     // window.getElementById("poweron").onclick = function() {myFunction()};
@@ -43,7 +48,32 @@ function createWindow() {
     // });
 }
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+    tray = new Tray('./src/img/tray_16.png');
+
+    const contextMenu = Menu.buildFromTemplate([
+        {label: "Visit webpage", type: "normal"},
+        {label: "Exit", role: "quit", type: "normal"}
+    ])
+    
+    tray.setToolTip("Onkyo App");
+    tray.setContextMenu(contextMenu);
+
+    createWindow();
+
+    tray.on('click', () => {
+        if ( window.isVisible() ) {
+            clearTimeout(timeoutCloseWindow);
+            console.log('Window was visible, hiding...');
+            window.hide();
+        } else {
+            console.log('Window was hidden, showing...');
+            window.show();
+        }
+    })
+
+
+});
 
 ipcMain.on('asynchronous-message', (event, arg) => {
     // console.log(event);
