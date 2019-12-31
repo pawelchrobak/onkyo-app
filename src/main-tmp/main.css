@@ -39,7 +39,7 @@ body {
   margin: 4px;
   top: 0;
   right: 0;
-  background-image: url("../img/icons8-power-off-button-50.png");
+  -webkit-mask-box-image: url("../img/icons8-power-off-button-50.png");
 }
 #header-section #btn-power.active {
   background: black;
@@ -51,9 +51,7 @@ body {
 .btn {
   height: 48px;
   width: 48px;
-  background-repeat: no-repeat;
-  background-size: 67%;
-  background-position: center;
+  background-color: white;
 }
 .btn:hover {
   background-color: #66adff;
@@ -88,10 +86,10 @@ body {
   margin: 4px;
 }
 #src-section #src-pc {
-  background-image: url("../img/icons8-workstation-50.png");
+  -webkit-mask-box-image: url("../img/icons8-workstation-50.png");
 }
 #src-section #src-chromecast {
-  background-image: url("../img/icons8-chromecast-50.png");
+  -webkit-mask-box-image: url("../img/icons8-chromecast-50.png");
 }
 
 #volume-section .btn {
@@ -99,13 +97,13 @@ body {
   margin: 4px;
 }
 #volume-section #volume-mute {
-  background-image: url("../img/icons8-mute-50.png");
+  -webkit-mask-box-image: url("../img/icons8-mute-50.png");
 }
 #volume-section #volume-down {
-  background-image: url("../img/icons8-low-volume-50.png");
+  -webkit-mask-box-image: url("../img/icons8-low-volume-50.png");
 }
 #volume-section #volume-up {
-  background-image: url("../img/icons8-audio-50.png");
+  -webkit-mask-box-image: url("../img/icons8-audio-50.png");
 }
 #volume-section .input-range {
   float: left;

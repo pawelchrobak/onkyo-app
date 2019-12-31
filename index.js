@@ -52,8 +52,8 @@ app.on('ready', () => {
     tray = new Tray('./src/img/tray_16.png');
 
     const contextMenu = Menu.buildFromTemplate([
-        {label: "Visit webpage", type: "normal"},
-        {label: "Exit", role: "quit", type: "normal"}
+        {label: "Visit github page", type: "normal"},
+        {label: "Quit app", role: "quit", type: "normal"}
     ])
     
     tray.setToolTip("Onkyo App");
@@ -68,6 +68,7 @@ app.on('ready', () => {
             window.hide();
         } else {
             console.log('Window was hidden, showing...');
+            clearTimeout(timeoutCloseWindow);
             window.show();
         }
     })
