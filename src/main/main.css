@@ -1,12 +1,122 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-size: 24px;
+  color: white;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: rgba(22, 22, 22, 0.75);
+}
+
+.clear {
+  clear: both;
+}
+
 .hidden {
   display: none;
 }
 
-#btn-power.active {
-  background: black;
+#header-section #receiver-selector-box {
+  width: 100%;
 }
-#btn-power.inactive {
-  background: green;
+#header-section #receiver-selector-box #receiver-selector {
+  width: 100%;
+  height: 56px;
+  text-align-last: center;
+  border: none;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  background: #222;
+}
+#header-section #receiver-selector-box #receiver-selector option {
+  padding: 50px;
+}
+#header-section #btn-power {
+  position: absolute;
+  margin: 4px;
+  top: 0;
+  right: 0;
+  -webkit-mask-box-image: url("../img/icons8-power-off-button-50.png");
+}
+
+.btn {
+  height: 48px;
+  width: 48px;
+  background-color: white;
+}
+.btn.status-on {
+  background-color: #71ff6c;
+}
+.btn.status-off {
+  background-color: #ff6c6c;
+}
+.btn:hover {
+  background-color: #66adff;
+}
+.btn:active {
+  background-color: #003b7e;
+}
+
+.input-range {
+  -webkit-appearance: none;
+  background: transparent;
+  height: 48px;
+}
+.input-range:focus {
+  outline: none;
+}
+.input-range::-webkit-slider-runnable-track {
+  height: 4px;
+  background: white;
+}
+.input-range::-webkit-slider-thumb {
+  width: 8px;
+  height: 24px;
+  background: #0866d1;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  margin-top: -10px;
+}
+
+#src-section .btn {
+  float: left;
+  margin: 4px;
+}
+#src-section #src-pc {
+  -webkit-mask-box-image: url("../img/icons8-workstation-50.png");
+}
+#src-section #src-chromecast {
+  -webkit-mask-box-image: url("../img/icons8-chromecast-50.png");
+}
+
+#volume-section .btn {
+  float: left;
+  margin: 4px;
+}
+#volume-section #volume-mute {
+  -webkit-mask-box-image: url("../img/icons8-mute-50.png");
+}
+#volume-section #volume-down {
+  -webkit-mask-box-image: url("../img/icons8-low-volume-50.png");
+}
+#volume-section #volume-up {
+  -webkit-mask-box-image: url("../img/icons8-audio-50.png");
+}
+#volume-section .input-range {
+  float: left;
+  margin: 4px;
+  width: 250px;
+}
+#volume-section #volume-val {
+  float: left;
+  margin: 4px;
+  height: 48px;
+  width: 64px;
+  text-align: center;
+  line-height: 40px;
 }
 
 /*# sourceMappingURL=main.css.map */

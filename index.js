@@ -8,21 +8,21 @@ let timeoutCloseWindow = null;
 function createWindow() {
     window = new BrowserWindow({
         show: false,
-        width: 386,
-        height: 240,
-        x: 1500,
-        y: 800,
+        // width: 386,
+        // height: 240,
+        // x: 1500,
+        // y: 800,
         transparent: true,
-        frame: false,
+        // frame: false,
         skipTaskbar: true,
         useContentSize: true,
-        resizable: false,
+        // resizable: false,
         webPreferences: {
             nodeIntegration: true
         }
     });
 
-    window.loadFile('./src/main-tmp/main.html');
+    window.loadFile('./src/main/main.html');
     window.on('blur', () => {
         clearTimeout(timeoutCloseWindow);
         timeoutCloseWindow = setTimeout( () => {

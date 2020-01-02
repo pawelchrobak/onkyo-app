@@ -2,31 +2,31 @@ const { ipcRenderer } = require('electron');
 const onkyo = require('../onkyo/onkyo');
 
 
-const infoSearching = document.getElementById('info-searching');
-const infoErrors = document.getElementById('info-errors');
+const infoBox = document.getElementById('info-box');
 
 const receiverSelector = document.getElementById('receiver-selector');
-const controlPanel = document.getElementById('control-panel');
 const controlHeader = document.getElementById('control-header');
+const controlPanel = document.getElementById('control-panel');
 const btnPower = document.getElementById('btn-power');
-const statusPower = document.getElementById('status-power');
+const volumeVal = document.getElementById('volume-val');
+const virtualReceiver = {
+    power: 'off'
+};
 
 var receiverList = [];
 var selectedReceiver;
 
+infoBox.innerText = 'Searching for receivers...';
+
 onkyo.onkyoDiscover( (err,list) => {
     if (err) {
-        infoErrors.innerText = err;
-
-        infoSearching.classList = ['hidden'];
-        infoErrors.classList = [];
-
+        infoBox.innerText = err;
         return;
     }
     
-    infoSearching.classList = ['hidden'];
-    controlHeader.classList = [];
-    controlPanel.classList = [];
+    infoBox.classList = 'hidden';
+    controlHeader.classList = '';
+    controlPanel.classList = '';
 
     
     receiverList = list;
@@ -45,12 +45,24 @@ onkyo.onkyoDiscover( (err,list) => {
     })
 
     btnPower.addEventListener('click', (event) => {
-        selectedReceiver.powerOn( (err,status) => {
-            if (status) {
-                statusPower.innerText = 'ON';
-            }
-        });
-    })
+        if ( virtualReceiver.power == 'off' ) {
+
+            selectedReceiver.powerOn( (err,status) => {
+                if (status) {
+                    virtualReceiver.power = 'on';
+                    btnPower.classList = 'btn status-on';
+                }
+            });
+
+        } else {
+            selectedReceiver.powerOff( (err,status) => {
+                if (status) {
+                    virtualReceiver.power = 'off';
+                    btnPower.classList = 'btn status-off';
+                }
+            });
+        }
+    });
 
     
     

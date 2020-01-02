@@ -8,15 +8,37 @@
     <link rel="stylesheet" type="text/css" href="main.css">
   </head>
   <body>
-    <div id="info-searching">Szukam odbiorników...</div>
-    <div id="info-errors" class="hidden"></div>
 
+
+    <div id="info-box">...</div>
+    
     <div class="hidden"  id="control-header">
-      <select id="receiver-selector"></select>
-      <button id="btn-power" class="inactive">Power</button>
+
+      <div id="header-section">
+        <div id="receiver-selector-box">
+          <select id="receiver-selector"></select>
+        </div>
+        <div id="btn-power" class="btn status-off"></div>
+        <!-- <div id="btn-reload" class="btn"></div> -->
+
+      </div>
+      
     </div>
+
     <div class="hidden" id="control-panel">
-      <div id="status-power"></div>
+
+      <div id="src-section">
+        <div id="src-pc" class="btn"></div>
+        <div id="src-chromecast" class="btn"></div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="volume-section">
+        <div id="volume-mute" class="btn"></div>
+        <input type="range" class="input-range" name="volume" min="0" max="50">
+        <div id="volume-val">100</div>
+      </div>
+
     </div>
 
     <script src="main.js"></script>

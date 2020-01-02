@@ -1,4 +1,5 @@
 const cp = require('child_process');
+const EventEmitter = require('events');
 
 function onkyoDiscover(callback) {
     // gets array of onkyo receivers objects and passes them into callback function
@@ -82,31 +83,65 @@ function onkyoDiscover(callback) {
     });
 }
 
+function makeParams(receiverObj, param) {
+    //return params table to use in cp.spawn() command
+
+    let params = ['--host',
+                    receiverObj.ip[0]+'.'+receiverObj.ip[1]+'.'+receiverObj.ip[2]+'.'+receiverObj.ip[3],
+                    '--port',
+                    receiverObj.port,
+                    param,
+                    '-q',
+                    '-q'];
+
+    return params;
+}
+
 class OnkyoReceiver {
+    
     constructor(name, ip, port, mac) {
         this.name = name;
         this.ip = ip;
         this.port = port;
         this.mac = mac;
+
+        this.updateLoop = null;
+        this.updateInterval = 500;
+
+        this.virtualStatus = {
+            power: null,
+            volume: null,
+            src: null
+        }
+    }
+
+    setUpdateInterval(miliseconds) {
+        this.updateInterval = miliseconds;
+    }
+
+    startUpdateLoop(callback) {
+        // let
+        if (this.updateLoop) { updateLoop.clearInterval() }
+
+        this.updateLoop = setInterval( () => {
+            this.statusQuery('power', (err,status) => { if (status) { this.virtualStatus.power = status } });
+            this.statusQuery('volume', (err,status) => { if (status) { this.virtualStatus.volume = status } });
+            this.statusQuery('source', (err,status) => { if (status) { this.virtualStatus.src = status } });
+            console.log(`ONKYO POWER:${this.virtualStatus.power} SOURCE:${this.virtualStatus.src} VOLUME:${this.virtualStatus.volume}`);
+        }, this.updateInterval)
+
     }
 
     powerOn(callback) {
+        // run callback function after getting an answer, passing errors and status. status is true if receiver turned on or was on
         let errors;
         let status = false;
-        let params = ['--host',
-                      this.ip[0]+'.'+this.ip[1]+'.'+this.ip[2]+'.'+this.ip[3],
-                      '--port',
-                      this.port,
-                      'power.on',
-                      '-q',
-                      '-q'];
+        let params = makeParams(this,'power.on');
 
         let cmd = cp.spawn('onkyo',params);
 
         cmd.stdout.on('data', (data) => {
-            // data = data.toString('utf8');
             data = data.toString('utf8').split('\n')[0].split('\r')[0];
-            console.log(data);
 
             if ( data != 'on') {
                 errors = 'Failed to turn on receiver.'
@@ -123,7 +158,45 @@ class OnkyoReceiver {
     }
 
     powerOff(callback) {
-        console.log('powering off ' + this.name);
+        let errors;
+        let status = false;
+        let params = makeParams(this,'power.off');
+
+        let cmd = cp.spawn('onkyo',params);
+
+        cmd.stdout.on('data', (data) => {
+            data = data.toString('utf8').split('\n')[0].split('\r')[0];
+
+            if ( data != 'standby,off' ) {
+                errors = 'Failed to turn off a receiver.'
+            } else {
+                status = true;
+            }
+        });
+
+        cmd.on('close', (code) => {
+            callback(errors,status);
+        })
+    }
+
+    statusQuery(param,callback) {
+        let errors;
+        let status;
+        let params = makeParams(this,param+'.query');
+
+        let cmd = cp.spawn('onkyo',params);
+
+        cmd.stdout.on('data', (data) => {
+            data = data.toString('utf8').split('\n')[0].split('\r')[0];
+            status = data;
+        });
+
+        cmd.on('close', (code) => {
+            if (code == 1) {
+                errors = 'Could not complete query.'
+            }
+            callback(errors,status);
+        })
     }
 
     setVolume(vol) {
@@ -133,11 +206,17 @@ class OnkyoReceiver {
 }
 
 // for node testing
-// onkyoDiscover( (err,list) => {
-//     if (err) {
-//         console.log(err);
-//     } 
-// })
+onkyoDiscover( (err,list) => {
+    if (err) {
+        console.log(err);
+    } else {
+        rec = list[0];
+        // console.log(rec);
+
+        rec.setUpdateInterval(200);
+        rec.startUpdateLoop();
+    }
+})
 
 
 module.exports.OnkyoReceiver = OnkyoReceiver;
