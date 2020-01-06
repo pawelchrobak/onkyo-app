@@ -1,5 +1,7 @@
 const cp = require('child_process');
 const EventEmitter = require('events');
+const eiscp = require('eiscp');
+const util = require('util');
 
 function onkyoDiscover(callback) {
     // gets array of onkyo receivers objects and passes them into callback function
@@ -119,17 +121,28 @@ class OnkyoReceiver {
         this.updateInterval = miliseconds;
     }
 
-    startUpdateLoop(callback) {
-        // let
+    startUpdateLoop() {
+        let statusChangeEmitter = new EventEmitter();
+
         if (this.updateLoop) { updateLoop.clearInterval() }
 
         this.updateLoop = setInterval( () => {
-            this.statusQuery('power', (err,status) => { if (status) { this.virtualStatus.power = status } });
-            this.statusQuery('volume', (err,status) => { if (status) { this.virtualStatus.volume = status } });
+            this.statusQuery('power', (err,status) => {
+                if (status && status != this.virtualStatus.power) {
+                    this.virtualStatus.power = status;
+                    statusChangeEmitter.emit('powerChange');
+                }
+            });
+            this.statusQuery('volume', (err,status) => {
+                if (status && status != this.virtualStatus.volume) {
+                    this.virtualStatus.volume = status;
+                    statusChangeEmitter.emit('volumeChange');
+                }
+            });
             this.statusQuery('source', (err,status) => { if (status) { this.virtualStatus.src = status } });
-            console.log(`ONKYO POWER:${this.virtualStatus.power} SOURCE:${this.virtualStatus.src} VOLUME:${this.virtualStatus.volume}`);
         }, this.updateInterval)
 
+        return statusChangeEmitter;
     }
 
     powerOn(callback) {
@@ -205,19 +218,25 @@ class OnkyoReceiver {
 
 }
 
-// for node testing
-onkyoDiscover( (err,list) => {
-    if (err) {
-        console.log(err);
-    } else {
-        rec = list[0];
-        // console.log(rec);
+// // for node testing
+// onkyoDiscover( (err,list) => {
+//     if (err) {
+//         console.log(err);
+//     } else {
+//         rec = list[0];
+//         // console.log(rec);
 
-        rec.setUpdateInterval(200);
-        rec.startUpdateLoop();
-    }
-})
+//         rec.setUpdateInterval(500);
+//         let emitter = rec.startUpdateLoop();
 
+//         emitter.on('volumeChange', () => {
+//             console.log("Volume: "+rec.virtualStatus.volume);
+//         })
+
+//     }
+// })
+
+eiscp.discover({timeout:4},)
 
 module.exports.OnkyoReceiver = OnkyoReceiver;
 module.exports.onkyoDiscover = onkyoDiscover;
