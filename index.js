@@ -8,27 +8,28 @@ let timeoutCloseWindow = null;
 function createWindow() {
     window = new BrowserWindow({
         show: false,
-        // width: 386,
-        // height: 240,
-        // x: 1500,
-        // y: 800,
+        width: 330,
+        height: 170,
+        x: 1590,
+        y: 998,
         transparent: true,
-        // frame: false,
+        frame: false,
         skipTaskbar: true,
         useContentSize: true,
-        // resizable: false,
+        resizable: false,
         webPreferences: {
             nodeIntegration: true
         }
     });
 
     window.loadFile('./src/main/main.html');
+
     window.on('blur', () => {
         clearTimeout(timeoutCloseWindow);
         timeoutCloseWindow = setTimeout( () => {
             window.hide()
-        }, 500)
-    })
+        }, 100)
+    });
 
 
     // window.webContents.openDevTools();
@@ -76,27 +77,13 @@ app.on('ready', () => {
 
 });
 
-ipcMain.on('asynchronous-message', (event, arg) => {
-    // console.log(event);
+// ipcMain.on('asynchronous-message', (event, arg) => {
+//     // console.log(event);
 
-    console.log(arg);
+//     console.log(arg);
 
-    onkyo.onkyoDiscover( (list) => {
-        event.reply('asynchronous-reply', list[0]);
-    });
+//     onkyo.onkyoDiscover( (list) => {
+//         event.reply('asynchronous-reply', list[0]);
+//     });
 
-
-
-
-    // let params = ["--discover"];
-    // let cmd = require('child_process').spawn('onkyo', params);
-
-    // cmd.stdout.on('data', ( data ) => {
-    //     console.log('receivers found: ' + data.toString('utf8') );
-    //     event.reply('asynchronous-reply', data.toString('utf8') );
-    // })
-
-
-});
-
-// ipcMain.on('put-in-tray', (event) )
+// });

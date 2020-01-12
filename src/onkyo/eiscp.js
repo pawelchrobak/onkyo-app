@@ -4,12 +4,12 @@ var util = require('util'),
 	eiscp = require('eiscp'),
 	os = require('os');
 
-eiscp.on('debug', util.log);
-eiscp.on('error', util.log);
+// eiscp.on('debug', util.log);
+// eiscp.on('error', util.log);
 
 // Discover receviers on network, stop after 2 receviers or 5 seconds
 
-eiscp.discover({address: '192.168.1.255'}, function (err, result) {
+eiscp.discover({address: '192.168.1.255', timeout: 2}, function (err, result) {
 	
 	if(err) {
 		console.log("Error message: " + result);
@@ -19,6 +19,18 @@ eiscp.discover({address: '192.168.1.255'}, function (err, result) {
 		// console.log(result[0].host);
 
 		eiscp.connect({host: result[0].host});
+		eiscp.on('connect', () => {
+			eiscp.command('main.system-power=query');
+
+			eiscp.on('system-power', (pwr) => {
+				console.log(pwr);
+			})
+			// console.log(eiscp.eventNames());
+			// eiscp.close();
+			// eiscp.removeAllListeners();
+			// console.log(eiscp.eventNames());
+
+		})
 	}
 });
 
