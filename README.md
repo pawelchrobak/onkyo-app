@@ -1,3 +1,5 @@
-Onkyo App
+# Onkyo App
 
-Electron app for controlling onkyo receivers. WIP
+Desktop app made with Electron for controlling onkyo receivers over LAN.
+
+Currently user can pick audio source, change volume and turn on/off the selected receiver.
