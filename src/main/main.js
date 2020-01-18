@@ -1,7 +1,4 @@
-const { ipcRenderer } = require('electron');
-const onkyo = require('../onkyo/onkyo');
 const eiscp = require('eiscp');
-const util = require('util');
 
 const infoBox = document.getElementById('info-box');
 const receiverSelector = document.getElementById('receiver-selector');
@@ -20,7 +17,13 @@ var receiverList = [],
     selectedReceiver = null,
     broadcastAddress = '192.168.1.255';
 
-infoBox.innerText = 'Searching for receivers...';
+
+infoBox.removeEventListener('click', reloadPage);
+infoBox.innerHTML = '<div>Searching for receivers...</div>';
+
+function reloadPage() {
+    window.location.reload();
+}
 
 function mangeUI(status) {
 
@@ -80,6 +83,7 @@ function mangeUI(status) {
     volumeRange.addEventListener('input', () => {
         volumeVal.innerText = volumeRange.value;
     });
+ 
     volumeRange.addEventListener('change', () => {
         eiscp.command('main.master-volume='+volumeRange.value);
     });
@@ -139,9 +143,10 @@ function getAllStatusInfo() {
 
 }
 
-eiscp.discover({address: broadcastAddress}, (err,res) => {
-    if (err) {
-        infoBox.innerText = err;
+eiscp.discover({address: broadcastAddress, timeout: 5}, (err,res) => {
+    if (err || res.length == 0) {
+        infoBox.innerHTML = '<div>No receivers found.<br>Click here to retry.</div>';
+        infoBox.addEventListener('click', reloadPage)
         return;
     } else {
         receiverList = res;

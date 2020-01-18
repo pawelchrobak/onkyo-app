@@ -6,6 +6,19 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+#info-box {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  line-height: 170px;
+}
+#info-box div {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+}
+
 body {
   background: rgba(22, 22, 22, 0.75);
 }
